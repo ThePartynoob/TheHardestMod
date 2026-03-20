@@ -1,11 +1,12 @@
-using UnityEngine;
-using TheHardestMod.ObjectExtensions;
 using TheHardestMod;
+using TheHardestMod.ObjectExtensions;
+using UnityEngine;
+using static UnityEngine.GridBrushBase;
 
 
 namespace TheHardestMod.Npcs
 {
-    internal class PandemoniumNPC : NPC
+    internal class HarbingerNPC : NPC
     {
 
         [SerializeField]
@@ -17,34 +18,37 @@ namespace TheHardestMod.Npcs
         public override void Initialize()
         {
             base.Initialize();
-            behaviorStateMachine.ChangeState(new Pandemonium_Chase(this));
-            
+            behaviorStateMachine.ChangeState(new Harbinger_Chase(this));
+            navigationStateMachine.ChangeState(new NavigationState_Disabled(this));
             this.Navigator.SetSpeed(1);
+            this.spriteRenderer[0].gameObject.layer = LayerMask.NameToLayer("Overlay");
 
         }
     }
 
-    internal class Pandemonium_StateBase(PandemoniumNPC pandemonium) : NpcState(pandemonium)
+    internal class Harbinger_StateBase(HarbingerNPC Harbinger) : NpcState(Harbinger)
     {
 
-        protected PandemoniumNPC pand = pandemonium;
+        protected HarbingerNPC pand = Harbinger;
         
 
     }
-    internal class Pandemonium_Chase(PandemoniumNPC pandemonium) : Pandemonium_StateBase(pandemonium)
+    internal class Harbinger_Chase(HarbingerNPC Harbinger) : Harbinger_StateBase(Harbinger)
     {
         protected float speed = 0f;
-        protected float SpeedToGo = 40f;
-        protected float timeBeforeChase = 10f;
+        protected float SpeedToGo = 150f;
+        protected float timeBeforeChase = 1f;
         protected bool saw = false;
-        private PandemoniumNPC pandemoniumPC = pandemonium;
+        private HarbingerNPC HarbingerPC = Harbinger;
         public override void Enter()
         {
             base.Enter();
+            
             SpeedToGo = 40f;
-            pandemoniumPC.AudMan.QueueAudio(TheHardestMod.MainClass.Instance.Snd_Sfx_Pandemonium_Moving);
+            HarbingerPC.AudMan.QueueAudio(TheHardestMod.MainClass.Instance.Snd_HarbingerComing);
+            HarbingerPC.AudMan.SetLoop(true);
             if ((Singleton<ModifiersCategorySettings>.Instance.c && !Singleton<ModifiersCategorySettings>.Instance.a) || Singleton<ModifiersCategorySettings>.Instance.e) {
-                pandemoniumPC.Despawn();
+                HarbingerPC.Despawn();
             }
             
 
@@ -54,22 +58,25 @@ namespace TheHardestMod.Npcs
                 {
                     if (!saw) {
                         saw = true;
-                        pandemoniumPC.AudMan.FlushQueue(true);
-                        pandemoniumPC.AudMan.QueueAudio(TheHardestMod.MainClass.Instance.Snd_Sfx_Pandemonium_Scream);
+                        
                         SpeedToGo = 300;
-                        pandemoniumPC.AudMan.SetLoop(true);
+                        
                     }
                 }
 
         public override void Update()
                 {
                     base.Update();
-                    ChangeNavigationState(new NavigationState_TargetPlayer(pandemoniumPC,9999,Singleton<CoreGameManager>.Instance.GetPlayer(0).transform.position,true));  
-                    pandemoniumPC.Navigator.SetSpeed(speed);
+                     
+                    
                     timeBeforeChase -= Time.deltaTime;
-                    var distance = (pandemoniumPC.transform.position - Singleton<CoreGameManager>.Instance.GetPlayer(0).transform.position).magnitude;
+                    var distance = (HarbingerPC.transform.position - Singleton<CoreGameManager>.Instance.GetPlayer(0).transform.position).magnitude;
+            var direction = (Singleton<CoreGameManager>.Instance.GetPlayer(0).transform.position - HarbingerPC.transform.position).normalized;
+
+
                     if (timeBeforeChase < 0) {
-                        speed = SpeedToGo;
+                HarbingerPC.transform.position += direction * speed * Time.deltaTime;
+                speed += Time.deltaTime * 1f;
                     } else {
                         speed = 0f;
                     }
@@ -77,14 +84,14 @@ namespace TheHardestMod.Npcs
 
 
                     if (distance < 30 && Singleton<CoreGameManager>.Instance.GetPlayer(0).plm.Entity.Frozen) {
-                        pandemoniumPC.behaviorStateMachine.ChangeState(new Pandemonium_Minigame(pandemoniumPC));
+                        HarbingerPC.behaviorStateMachine.ChangeState(new Harbinger_Minigame(HarbingerPC));
                     }
 
                 }
 
         public override void OnStateTriggerEnter(Collider other, bool validCollision)
                 {
-                    base.OnStateTriggerEnter(other, validCollision);
+                    base.OnStateTriggerEnter(other,validCollision);
                     if (other.gameObject.GetComponent<PlayerManager>() != null) {
                         Singleton<BaseGameManager>.Instance.Ec.GetBaldi().CaughtPlayer(Singleton<CoreGameManager>.Instance.GetPlayer(0));
 
@@ -97,40 +104,39 @@ namespace TheHardestMod.Npcs
     }
 
 
-    internal class Pandemonium_Minigame(PandemoniumNPC pandemonium) : Pandemonium_StateBase(pandemonium) {
+    internal class Harbinger_Minigame(HarbingerNPC Harbinger) : Harbinger_StateBase(Harbinger) {
         protected float speed = 1f;
-        private PandemoniumNPC pandemoniumPC = pandemonium;
-        private PandemoniumMinigame PanMini;
+        private HarbingerNPC HarbingerPC = Harbinger;
+        private HarbingerMinigame PanMini;
         private bool caught = false;
         public override void Enter()
         {
             base.Enter();
             
-            pandemoniumPC.AudMan.QueueAudio(TheHardestMod.MainClass.Instance.Snd_Sfx_Pandemonium_Scream);
-            pandemoniumPC.AudMan.SetLoop(true);
+            
 
             SoundObject[] randomMus = [MainClass.Instance.Snd_mus_Minigame_Pand, MainClass.Instance.Snd_mus_Minigame_Pand2];
+            Singleton<CoreGameManager>.Instance.SetLives(3, true);
 
-            Singleton<CoreGameManager>.Instance.audMan.PlaySingle(randomMus[UnityEngine.Random.Range(0,2)]);
-            PanMini = Singleton<BaseGameManager>.Instance.gameObject.AddComponent<PandemoniumMinigame>();
+            PanMini = Singleton<BaseGameManager>.Instance.gameObject.AddComponent<HarbingerMinigame>();
 
         }
 
         public override void Update()
                 {
                     base.Update();
-                    ChangeNavigationState(new NavigationState_TargetPlayer(pandemoniumPC,9999,Singleton<CoreGameManager>.Instance.GetPlayer(0).transform.position,true));  
-                    pandemoniumPC.Navigator.SetSpeed(speed);
+                      
+                    
                     
                     if (!Singleton<CoreGameManager>.Instance.GetPlayer(0).plm.Entity.Frozen) {
-                        speed = 5000;
+                        speed = 250;
                     } else speed = 0;
 
                     if (PanMini.done) {
                         PanMini.Stop();
                         Singleton<CoreGameManager>.Instance.audMan.audioDevice.Stop();
-                        pandemoniumPC.Despawn();
-                        Singleton<CoreGameManager>.Instance.AddPoints(150,0,true,true,true);
+                        HarbingerPC.Despawn();
+                        Singleton<CoreGameManager>.Instance.AddPoints(150,0,true,true, true);
                     }
                     if (PanMini.failure && !caught) {
                         Singleton<BaseGameManager>.Instance.Ec.GetBaldi().CaughtPlayer(Singleton<CoreGameManager>.Instance.GetPlayer(0));
@@ -142,7 +148,7 @@ namespace TheHardestMod.Npcs
 
         public override void OnStateTriggerEnter(Collider other, bool validCollision)
                 {
-                    base.OnStateTriggerEnter(other,validCollision);
+            base.OnStateTriggerEnter(other, validCollision);
                     if (other.gameObject.GetComponent<PlayerManager>() != null) {
                         Singleton<BaseGameManager>.Instance.Ec.GetBaldi().CaughtPlayer(Singleton<CoreGameManager>.Instance.GetPlayer(0));
                         PanMini.Stop();

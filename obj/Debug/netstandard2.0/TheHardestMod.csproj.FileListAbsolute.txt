@@ -95,3 +95,5 @@ C:\Users\lucas\source\repos\modButDiscordChatGivesSuggestions\modButDiscordChatG
 C:\Users\lucas\source\repos\modButDiscordChatGivesSuggestions\modButDiscordChatGivesSuggestions\bin\Debug\netstandard2.0\Unity.TextMeshPro.dll
 C:\Users\lucas\source\repos\modButDiscordChatGivesSuggestions\modButDiscordChatGivesSuggestions\bin\Debug\netstandard2.0\PixelInternalAPI.dll
 C:\Users\lucas\source\repos\modButDiscordChatGivesSuggestions\modButDiscordChatGivesSuggestions\bin\Debug\netstandard2.0\PixelInternalAPI.xml
+C:\Users\lucas\source\repos\modButDiscordChatGivesSuggestions\modButDiscordChatGivesSuggestions\obj\Debug\netstandard2.0\TheHardestMod.sourcelink.json
+C:\Users\lucas\source\repos\modButDiscordChatGivesSuggestions\modButDiscordChatGivesSuggestions\bin\Debug\netstandard2.0\BaldiLevelEditor.dll

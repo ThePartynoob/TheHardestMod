@@ -12,6 +12,7 @@
           "NETStandard.Library": "2.0.3",
           "0Harmony": "2.9.0.0",
           "Assembly-CSharp": "0.0.0.0",
+          "BaldiLevelEditor": "1.0.0.0",
           "BepInEx": "5.4.22.0",
           "BepInEx.Harmony": "2.0.0.0",
           "BepInEx.Preloader": "5.4.22.0",
@@ -19,6 +20,7 @@
           "MTM101BaldAPI": "1.0.0.0",
           "Newtonsoft.Json": "13.0.0.0",
           "PixelInternalAPI": "1.2.4.3",
+          "PlusLevelLoader": "1.0.0.0",
           "Unity.TextMeshPro": "0.0.0.0",
           "UnityEngine.AccessibilityModule": "0.0.0.0",
           "UnityEngine.AIModule": "0.0.0.0",
@@ -115,6 +117,14 @@
           }
         }
       },
+      "BaldiLevelEditor/1.0.0.0": {
+        "runtime": {
+          "BaldiLevelEditor.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
+          }
+        }
+      },
       "BepInEx/5.4.22.0": {
         "runtime": {
           "BepInEx.dll": {
@@ -168,6 +178,14 @@
           "PixelInternalAPI.dll": {
             "assemblyVersion": "1.2.4.3",
             "fileVersion": "1.2.4.3"
+          }
+        }
+      },
+      "PlusLevelLoader/1.0.0.0": {
+        "runtime": {
+          "PlusLevelLoader.dll": {
+            "assemblyVersion": "1.0.0.0",
+            "fileVersion": "1.0.0.0"
           }
         }
       },
@@ -722,14 +740,6 @@
             "fileVersion": "0.0.0.0"
           }
         }
-      },
-      "PlusLevelLoader/1.0.0.0": {
-        "runtime": {
-          "PlusLevelLoader.dll": {
-            "assemblyVersion": "1.0.0.0",
-            "fileVersion": "1.0.0.0"
-          }
-        }
       }
     }
   },
@@ -759,6 +769,11 @@
       "sha512": ""
     },
     "Assembly-CSharp/0.0.0.0": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "BaldiLevelEditor/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -794,6 +809,11 @@
       "sha512": ""
     },
     "PixelInternalAPI/1.2.4.3": {
+      "type": "reference",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "PlusLevelLoader/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
@@ -1139,11 +1159,6 @@
       "sha512": ""
     },
     "UnityEngine.XRModule/0.0.0.0": {
-      "type": "reference",
-      "serviceable": false,
-      "sha512": ""
-    },
-    "PlusLevelLoader/1.0.0.0": {
       "type": "reference",
       "serviceable": false,
       "sha512": ""
