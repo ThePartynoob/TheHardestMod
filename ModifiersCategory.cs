@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using MTM101BaldAPI;
 using MTM101BaldAPI.Reflection;
-using PlusLevelLoader;
+
 namespace TheHardestMod
 {
     public class ModifiersCategorySettings : Singleton<ModifiersCategorySettings> {
@@ -17,6 +17,8 @@ namespace TheHardestMod
         public bool e = false;
         public bool g = false;
         public bool h = false;
+        public bool i = false;
+        public bool k = false;
         public int d = 0;
         public int f = 0;
 
@@ -34,6 +36,8 @@ namespace TheHardestMod
         MenuToggle modE;
         MenuToggle modG;
         MenuToggle modH;
+        MenuToggle modI;
+        MenuToggle modK;
 
         AdjustmentBars modD;
         AdjustmentBars modF;
@@ -58,19 +62,25 @@ namespace TheHardestMod
             modF = CreateNewModifierBar("SpeedNpc","Speed of npcs","mod_sbNPCS",5,16,Color.red);
 
 
-            modG = CreateNewModifier("Chaos Chaos  -jevil from deltarune", "Chaos mode", "mod_crazy",8);
-
-
-
             
+
+            modH = CreateNewModifier("Blind", "Blinded", "mod_blind", 6);
+
+            modI = CreateNewModifier("broken metal pipes :(", "broken metal pipes", "mod_nopipes", 7);
+
+            modK = CreateNewModifier("HarbingerBuff", "Buffed unfariness", "mod_harbingerbuff", 8);
+
+
             CreateApplyButton(() => SendData());
             
             modA.Set(ModifiersCategorySettings.Instance.a);
             modB.Set(ModifiersCategorySettings.Instance.b);
             modC.Set(ModifiersCategorySettings.Instance.c);
             modE.Set(ModifiersCategorySettings.Instance.e);
-            modG.Set(ModifiersCategorySettings.Instance.g);
             
+            modH.Set(ModifiersCategorySettings.Instance.h);
+            modI.Set(ModifiersCategorySettings.Instance.i);
+            modK.Set(ModifiersCategorySettings.Instance.k);
             modD.Adjust(ModifiersCategorySettings.Instance.d);
             modF.Adjust(ModifiersCategorySettings.Instance.f);
 
@@ -83,8 +93,11 @@ namespace TheHardestMod
             ModifiersCategorySettings.Instance.d = (int)modD.ReflectionGetVariable("val");
             ModifiersCategorySettings.Instance.e = modE.Value;
             ModifiersCategorySettings.Instance.f = (int)modF.ReflectionGetVariable("val");
-            ModifiersCategorySettings.Instance.g = modG.Value;
             
+            ModifiersCategorySettings.Instance.h = modH.Value;
+            ModifiersCategorySettings.Instance.i = modI.Value;
+            ModifiersCategorySettings.Instance.k = modK.Value;
+
 
 
         }

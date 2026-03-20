@@ -6,7 +6,7 @@ namespace TheHardestMod.Patches
     public class ItemManagerPatch
     {
         [HarmonyPostfix]
-        [HarmonyPatch(typeof(ItemManager),"Awake")]
+        [HarmonyPatch(typeof(ItemManager),"Update")]
         static private void AwakePatch(ItemManager __instance) {
             if (!Singleton<ModifiersCategorySettings>.Instance.b) {
                 Singleton<CoreGameManager>.Instance.GetHud(0).UpdateInventorySize(3);

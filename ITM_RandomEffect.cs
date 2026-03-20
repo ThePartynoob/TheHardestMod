@@ -35,7 +35,7 @@ namespace TheHardestMod
                         {
                             timer = 20;
                             Singleton<BaseGameManager>.Instance.Ec.GetBaldi().GetAngry(timer);
-
+                            
                             break;
                         }
                     case "PlayerSpeedBoost":
@@ -43,7 +43,6 @@ namespace TheHardestMod
                             timer = 25;
                             Singleton<CoreGameManager>.Instance.GetPlayer(0).GetMovementStatModifier().AddModifier("runSpeed", RunWalkSpeedModifier);
                             Singleton<CoreGameManager>.Instance.GetPlayer(0).GetMovementStatModifier().AddModifier("walkSpeed", RunWalkSpeedModifier);
-
                             break;
                         }
                     case "NegativeStamina":
@@ -66,13 +65,12 @@ namespace TheHardestMod
                             BlindnessFog.strength = 0;
                             Singleton<BaseGameManager>.Instance.Ec.AddFog(BlindnessFog);
                             timer = 20;
-
                             break;
                         }
                     case "HappyBaldi":
                         {
                             timer = 0;
-                            Singleton<BaseGameManager>.Instance.Ec.GetBaldi().Praise(6);
+                            Singleton<BaseGameManager>.Instance.Ec.GetBaldi().Praise(6,false);
                             break;
                         }
                     case "Frozen":

@@ -8,31 +8,18 @@ namespace TheHardestMod.Patches
     [HarmonyPatch]
     internal class MainMenuPatch
     {
-        [HarmonyPatch(typeof(MainMenu),"Start")]
+        [HarmonyPatch(typeof(MainMenu), "Start")]
         [HarmonyPostfix]
-	   static void OnMainMenu(MainMenu __instance) {
-            // var text = UIHelpers.CreateText<TextMeshProUGUI>(BaldiFonts.ComicSans18,"Modifiers",__instance.transform,Vector3.zero,true);
-            // text.rectTransform.anchorMax = new Vector2(0.5f,0.8f);
-            // text.rectTransform.anchorMin = new Vector2(0.5f,0.8f);
-            // text.rectTransform.anchoredPosition = new Vector2(0,0);
-            // text.color = Color.black;
-            // text.raycastTarget  = true;
-            // var ModifiersScreen = UIHelpers.CreateBlankUIScreen("Modifiers");
-            // CursorController.Instance.transform.SetAsLastSibling();
-            // __instance.transform.Find("Bottom").SetAsLastSibling();
-            // __instance.transform.Find("BlackCover").SetAsLastSibling();
-            // StandardMenuButton Modifiers = text.gameObject.ConvertToButton<StandardMenuButton>(true);
+        static void OnMainMenu(MainMenu __instance)
+        {
+            if (!MainClass.Instance.GL)
+                MainClass.Instance.GL = Resources.FindObjectsOfTypeAll<GameLoader>().First(x => x.GetInstanceID() > 0);
 
-            // var menu = GameObject.Find("Menu");
-            // Modifiers.OnPress.AddListener(() => {
-            //     __instance.ActivateTransition(0.05f);
-            //     menu.SetActive(false);
-            //     ModifiersScreen.gameObject.AddComponent<CursorInitiator>();
-            //     Debug.Log("pressed");
-
-            // });
+            if (!MainClass.Instance.ELS)
+                MainClass.Instance.ELS = Resources.FindObjectsOfTypeAll<ElevatorScreen>().First(x => x.GetInstanceID() > 0 && x.gameObject.scene == __instance.gameObject.scene);
 
         }
+
     }
 }
 
